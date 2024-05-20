@@ -1,22 +1,26 @@
 package com.practice.worthreadingservice24.controller;
 
 import com.practice.worthreadingservice24.service.LikeService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/like/")
+@AllArgsConstructor
 public class LikesController {
 
     private LikeService likeService;
 
     @PutMapping("toggleLike/{messageId}")
-    public void toggleLike(@PathVariable String messageId, @RequestHeader String userId) {
+    ResponseEntity<String> toggleLike(@PathVariable String messageId, @RequestHeader String userId) {
+
         likeService.toggleLike(messageId, userId);
+        return ResponseEntity.ok("Like toggled");
     }
 
     @GetMapping("amount/{messageId}")
-    public int getAmountOfLikes(@PathVariable String messageId) {
-        likeService.likeCount(messageId);
-        return 0;
+   ResponseEntity<Integer> getAmountOfLikes(@PathVariable String messageId) {
+        return ResponseEntity.ok(likeService.likeCount(messageId));
     }
 }

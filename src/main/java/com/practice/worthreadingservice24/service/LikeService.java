@@ -7,11 +7,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class LikeService {
 
-    private LikesRepository likesRepository;
+    private final LikesRepository likesRepository;
 
     public LikeService(LikesRepository likesRepository) {
         this.likesRepository = likesRepository;
     }
+
+    public void like(String messageId, String userId) {
+
+        likesRepository.save(new Likes(messageId, userId));
+    }
+
     public void toggleLike(String messageId, String userId) {
 
         if (likesRepository.existsByMessageIdAndUserId(messageId, userId)) {
