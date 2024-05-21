@@ -1,28 +1,22 @@
 package com.practice.worthreadingservice24.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@IdClass(LikesId.class)
 public class Likes {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
     private String messageId;
+    @Id
     private String userId;
 
-    public Likes(String messageId, String userId) {
-        this.messageId = messageId;
-        this.userId = userId;
-    }
-
-    public Likes() {
-
-    }
 }

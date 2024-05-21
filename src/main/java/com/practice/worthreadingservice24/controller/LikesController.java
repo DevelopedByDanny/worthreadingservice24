@@ -15,8 +15,7 @@ public class LikesController {
     @PutMapping("toggleLike/{messageId}")
     ResponseEntity<String> toggleLike(@PathVariable String messageId, @RequestHeader String userId) {
 
-        likeService.toggleLike(messageId, userId);
-        return ResponseEntity.ok("Like toggled");
+        return ResponseEntity.ok(likeService.toggleLike(messageId, userId));
     }
 
     @GetMapping("amount/{messageId}")
