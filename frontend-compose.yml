@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   frontend:
     image: ghcr.io/chatgut/frontend:0.0.3
@@ -81,37 +82,34 @@ services:
     volumes:
       - dbUsers:/var/lib/mysql
 
-  worthReading:
-    image: ghcr.io/chatgut/worthreadingservice:master
-    container_name: worthreadingservice
-    depends_on:
-      mysql:
-        condition: service_healthy
-    environment:
-      DB_URL: jdbc:mysql://mysql:3306/demo
-      DB_USER: developer
-      DB_PASS: password
-    ports:
-      - "8005:8005"
-
   mysql:
     image: 'mysql:latest'
     container_name: mysqlDb
     volumes:
-      - dbWR:/var/lib/mysql
+      - likesdb:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: demo
-      MYSQL_USER: developer
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_HOST: '%'
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: 'mydatabase'
+      MYSQL_PASSWORD: 'secret'
+      MYSQL_ROOT_PASSWORD: 'verysecret'
+      MYSQL_USER: 'myuser'
+#    healthcheck:
+#      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER -p$$MYSQL_PASSWORD"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
+
+  worthReading:
+    image: perfectpoodle/worthreadingservice24-app:latest
+    container_name: worthreadingservice
+    depends_on:
+      - mysql
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mydatabase
+      - SPRING_DATASOURCE_USERNAME=myuser
+      - SPRING_DATASOURCE_PASSWORD=secret
     ports:
-      - '3306:3306'
-    healthcheck:
-      test: [ "CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER -p$$MYSQL_PASSWORD" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+      - "8005:8005"
+
   imageservice:
     image: ghcr.io/chatgut/imageservicebov:sha-925024f
     depends_on:
@@ -141,5 +139,5 @@ volumes:
   db_auth:
   dbUsers:
   dbData:
-  dbWR:
+  likesdb:
   db_mysql:
