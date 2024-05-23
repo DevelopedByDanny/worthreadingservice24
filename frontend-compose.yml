@@ -92,11 +92,6 @@ services:
       MYSQL_PASSWORD: 'secret'
       MYSQL_ROOT_PASSWORD: 'verysecret'
       MYSQL_USER: 'myuser'
-#    healthcheck:
-#      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER -p$$MYSQL_PASSWORD"]
-#      interval: 30s
-#      timeout: 10s
-#      retries: 5
 
   worthReading:
     image: perfectpoodle/worthreadingservice24-app:latest
