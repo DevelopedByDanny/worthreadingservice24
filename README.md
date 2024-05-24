@@ -76,3 +76,12 @@ If you want to start the chatgut app with frontend and all other services (You m
   ```bash
   docker-compose -f frontend-compose.yml up
   ```
+
+To use the chat app you have to register some users. Make a POST to http://localhost:8003/api/auth with the user name and password in the body.
+
+  ```json
+  {
+      "username":"username",
+      "password":"123"
+  }
+  ```
